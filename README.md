@@ -29,9 +29,10 @@ Get the version from [pub.dev](https://pub.dev/packages/cache_x)
         // Do your apps essential works
 
         // Then anywhere in your app use it to save string
-        print(await CacheXCore.instance.saveData('ft1', 'Tanvir'));
+        print(await CacheXCore.instance.saveData(String Key, String value));
+
         // Get String
-        print(await CacheXCore.instance.getData('ft1'));
+        print(await CacheXCore.instance.getData(String key));
     }
 
 ```CacheXCore.instance.saveData(String key, String value)``` will return ```Future<bool>``` so you have to use ```await``` to get the result of it or there any exception will throw exception.
