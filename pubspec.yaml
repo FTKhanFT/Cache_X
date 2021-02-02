@@ -1,0 +1,24 @@
+name: cache_x
+description: A feasible caching library for Flutter. Save any encrypted string.
+version: 0.0.1
+homepage: https://github.com/FTKhanFT/
+repository: https://github.com/FTKhanFT/TransitionX
+issue_tracker: https://github.com/FTKhanFT/TransitionX/issues
+documentation: https://github.com/FTKhanFT/TransitionX#getting-started
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  encrypt: ^4.1.0
+  shared_preferences: ^0.5.12+4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
