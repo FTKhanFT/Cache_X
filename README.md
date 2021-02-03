@@ -10,7 +10,7 @@ Caching is just a simple key-value pair data saving procedure. CacheX follows th
 
 ## Getting Started
 
-First you have to add the package dependency in ```pubspec.yml```
+First you have to add the package dependency in `pubspec.yml`
 
     cache_x: ^latest
 Get the version from [pub.dev](https://pub.dev/packages/cache_x)
@@ -34,9 +34,11 @@ Get the version from [pub.dev](https://pub.dev/packages/cache_x)
         print(await CacheXCore.instance.getData(key: 'ft1'));
     }
 
-```CacheXCore.instance.saveData(String key, String value)``` will return ```Future<bool>``` so you have to use ```await``` to get the result of it and it will throw exception if there any.
+### Things to keep in mind
 
-```CacheXCore.instance.getData(String key)``` will return ```Future<String>``` so to get the string you have to use ```await``` and it will throw exception if there any.
+- `CacheXCore.instance.saveData(String key, String value)` will return `Future<bool>` so you have to use `await` to get the result of it and it will throw [exception](#exceptions-in-the-package) if there any.
+
+- `CacheXCore.instance.getData(String key)` will return `Future<String>` so to get the string you have to use `await` and it will throw [exception](#exceptions-in-the-package) if there any.
 
 ## Exceptions in the Package
 
