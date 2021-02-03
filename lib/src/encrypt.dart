@@ -1,12 +1,13 @@
 import 'package:cache_x/src/exception.dart';
 import 'package:encrypt/encrypt.dart';
 
+/// CacheX Encryption
 abstract class CacheXEncrypt {
   Future<String> encryptData(String data);
   Future<String> decryptData(String data);
 }
 
-/// CAcheXEncryption Implementation
+/// CacheXEncryption Implementation
 class CacheXEncryptImpl implements CacheXEncrypt {
   CacheXEncryptImpl(String password) {
     key = Key.fromUtf8(password);
@@ -16,10 +17,10 @@ class CacheXEncryptImpl implements CacheXEncrypt {
   final iv = IV.fromLength(16);
   Encrypter encrypter;
 
+  /// Decrypt base64 data using [encrypt package]
   @override
   Future<String> decryptData(String data) {
     try {
-      /// Decrypt base64 data using [encrypt package]
       final decrypted = encrypter.decrypt64(data, iv: iv);
       return Future.value(decrypted);
     } catch (e) {
@@ -27,10 +28,10 @@ class CacheXEncryptImpl implements CacheXEncrypt {
     }
   }
 
+  /// Encrypt data using [encrypt package]
   @override
   Future<String> encryptData(String data) {
     try {
-      /// Encrypt data using [encrypt package]
       Encrypted encrypted = encrypter.encrypt(data, iv: iv);
 
       /// Return encrypted base64 String

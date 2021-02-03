@@ -1,16 +1,25 @@
 import 'package:cache_x/src/encrypt.dart';
 import 'package:cache_x/src/exception.dart';
 import 'package:cache_x/src/storage.dart';
+import 'package:flutter/material.dart';
 
 class CacheXWorker {
-  CacheXWorker(String key) {
+  CacheXWorker({
+    @required String key,
+  }) {
     /// Initializeing the CacheXEncryption using user specified [password/Key]
-    _encrypt = CacheXEncryptImpl(key);
+    _encrypt = CacheXEncryptImpl(
+      key,
+    );
   }
   CacheStorage _storage = CacheStorage();
   CacheXEncrypt _encrypt;
 
-  Future<bool> saveData(String key, String data) async {
+  /// Encrypting and saving data
+  Future<bool> saveData({
+    @required String key,
+    @required String data,
+  }) async {
     try {
       /// Initializing Storage if it's not initialized.
       await _storage.init();
@@ -26,7 +35,10 @@ class CacheXWorker {
     }
   }
 
-  Future<String> getData(String key) async {
+  /// Getting data and decrypting
+  Future<String> getData({
+    @required String key,
+  }) async {
     try {
       /// Initializing Storage if it's not initialized.
       await _storage.init();

@@ -7,8 +7,8 @@ class CacheStorage {
 
   SharedPreferences _preferance;
 
+  /// Initializing [SharedPreferance]
   init() async {
-    /// Initializing [SharedPreferance]
     _preferance = await SharedPreferences.getInstance();
   }
 

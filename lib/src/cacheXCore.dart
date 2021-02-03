@@ -4,23 +4,37 @@ class CacheXCore {
   static final CacheXCore instance = CacheXCore._ins();
   factory CacheXCore() => instance;
   CacheXCore._ins();
-  CacheXWorker worker;
+  CacheXWorker _worker;
 
   /// Initialize th CacheXCore
-  init(String password) async {
+  init({
+    @required String password,
+  }) async {
     /// Initializeing worker using specified password
-    worker = CacheXWorker(password);
+    _worker = CacheXWorker(
+      key: password,
+    );
   }
 
   /// Send data to CacheXWorker to Save data
-  Future<bool> saveData(String key, String data) async {
-    bool result = await worker.saveData(key, data);
+  Future<bool> saveData({
+    @required String key,
+    @required String value,
+  }) async {
+    bool result = await _worker.saveData(
+      key: key,
+      data: value,
+    );
     return Future.value(result);
   }
 
   /// Asking CacheXWorker to Get Data from cache using the key
-  Future<String> getData(String key) async {
-    String result = await worker.getData(key);
+  Future<String> getData({
+    @required String key,
+  }) async {
+    String result = await _worker.getData(
+      key: key,
+    );
     return Future.value(result);
   }
 }

@@ -8,12 +8,12 @@ void main() async {
   String password = 'CBoaDQIQAgceGg8d';
 
   // Initialize CacheX with the password
-  await CacheXCore().init(password);
+  await CacheXCore().init(password: password);
 
   // Do your apps essential works
 
   // Then anywhere in your app use it to save string
-  print(await CacheXCore.instance.saveData('ft1', 'Tanvir'));
+  print(await CacheXCore.instance.saveData(key: 'ft1', value: 'Tanvir'));
   // Get String
-  print(await CacheXCore.instance.getData('ft1'));
+  print(await CacheXCore.instance.getData(key: 'ft1'));
 }
