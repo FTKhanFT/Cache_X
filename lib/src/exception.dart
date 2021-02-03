@@ -4,8 +4,8 @@ class StorageException implements Exception {
   StorageException([this.message]);
   String toString() {
     Object message = this.message;
-    if (message == null) return "Exception";
-    return "Exception: $message";
+    if (message == null) return "StorageException";
+    return "StorageException: $message";
   }
 }
 
@@ -15,7 +15,7 @@ class EncryptionException implements Exception {
   EncryptionException([this.message]);
   String toString() {
     Object message = this.message;
-    if (message == null) return "Exception";
-    return "Exception: $message";
+    if (message == null) return "EncryptionException";
+    return "EncryptionException: $message";
   }
 }

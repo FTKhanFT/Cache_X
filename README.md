@@ -34,9 +34,16 @@ Get the version from [pub.dev](https://pub.dev/packages/cache_x)
         print(await CacheXCore.instance.getData(key: 'ft1'));
     }
 
-```CacheXCore.instance.saveData(String key, String value)``` will return ```Future<bool>``` so you have to use ```await``` to get the result of it or there any exception will throw exception.
+```CacheXCore.instance.saveData(String key, String value)``` will return ```Future<bool>``` so you have to use ```await``` to get the result of it and it will throw exception if there any.
 
 ```CacheXCore.instance.getData(String key)``` will return ```Future<String>``` so to get the string you have to use ```await``` and it will throw exception if there any.
+
+## Exceptions in the Package
+
+- StorageException
+  - If there any exception saving or getting data it will throw `StorageException`. The exception message starts with String `StorageException:`.
+- EncryptionException
+  - If there any exception encrypting or decrypting the data it will throw `EncryptionException`. The exception message will start with String `EncryptionException:`.
 
 ## Other Projects
 
