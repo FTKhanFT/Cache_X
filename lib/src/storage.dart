@@ -7,18 +7,19 @@ class CacheStorage {
 
   SharedPreferences _preferance;
 
-  /// Initializing [SharedPreferance]
-  init() async {
-    _preferance = await SharedPreferences.getInstance();
-  }
-
   /// Get data from [SharedPreferences]
   Future<String> getData(String key) async {
+    if (_preferance == null) {
+      this._preferance = await SharedPreferences.getInstance();
+    }
     return Future.value(_preferance.getString(key));
   }
 
   /// Save data to [SharedPreferences]
   Future<bool> saveData(String key, String data) async {
+    if (_preferance == null) {
+      this._preferance = await SharedPreferences.getInstance();
+    }
     return Future.value(_preferance.setString(key, data));
   }
 }

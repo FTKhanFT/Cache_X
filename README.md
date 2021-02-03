@@ -34,6 +34,15 @@ Get the version from [pub.dev](https://pub.dev/packages/cache_x)
         print(await CacheXCore.instance.getData(key: 'ft1'));
     }
 
+Also youcan save the instance in a veriable then use the veriable.
+
+    /// CacheXCore type of veriable cacheX
+    final cacheX = CacheXCore();
+    /// Init the CacheX
+    await cacheX.init(password: password);
+    cacheX.saveData(key: 'ft1', value: 'Tanvir');
+    cacheX.getData(key: 'ft1');
+
 ### Things to keep in mind
 
 - `CacheXCore.instance.saveData(String key, String value)` will return `Future<bool>` so you have to use `await` to get the result of it and it will throw [exception](#exceptions-in-the-package) if there any.

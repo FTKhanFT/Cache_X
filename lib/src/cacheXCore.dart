@@ -5,11 +5,14 @@ class CacheXCore {
   factory CacheXCore() => instance;
   CacheXCore._ins();
   CacheXWorker _worker;
+  String _password;
 
   /// Initialize th CacheXCore
   init({
     @required String password,
   }) async {
+    this._password = password;
+
     /// Initializeing worker using specified password
     _worker = CacheXWorker(
       key: password,
@@ -21,6 +24,10 @@ class CacheXCore {
     @required String key,
     @required String value,
   }) async {
+    if (_password == null) {
+      throw new CacheXException(
+          'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
+    }
     bool result = await _worker.saveData(
       key: key,
       data: value,
@@ -32,6 +39,10 @@ class CacheXCore {
   Future<String> getData({
     @required String key,
   }) async {
+    if (_password == null) {
+      throw new CacheXException(
+          'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
+    }
     String result = await _worker.getData(
       key: key,
     );

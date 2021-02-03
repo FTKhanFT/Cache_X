@@ -1,5 +1,6 @@
-import 'package:cache_x/src/exception.dart';
 import 'package:encrypt/encrypt.dart';
+
+import '../cache_x.dart';
 
 /// CacheX Encryption
 abstract class CacheXEncrypt {

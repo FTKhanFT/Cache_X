@@ -1,7 +1,8 @@
 import 'package:cache_x/src/encrypt.dart';
-import 'package:cache_x/src/exception.dart';
 import 'package:cache_x/src/storage.dart';
 import 'package:flutter/material.dart';
+
+import '../cache_x.dart';
 
 class CacheXWorker {
   CacheXWorker({
@@ -21,9 +22,6 @@ class CacheXWorker {
     @required String data,
   }) async {
     try {
-      /// Initializing Storage if it's not initialized.
-      await _storage.init();
-
       /// Getting encrypted data from CacheXEncryption
       String encryptedData = await _encrypt.encryptData(data);
 
@@ -40,9 +38,6 @@ class CacheXWorker {
     @required String key,
   }) async {
     try {
-      /// Initializing Storage if it's not initialized.
-      await _storage.init();
-
       /// getting data from [CacheXStorage]
       String data = await _storage.getData(key);
 

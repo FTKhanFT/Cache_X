@@ -1,3 +1,8 @@
+## 1.2.2
+
+- Prepared The package for nullsafety
+- Updated storage implementation
+
 ## 1.2.0
 
 - Updated storage implementation
