@@ -1,3 +1,7 @@
+## 1.3.6
+
+- Changed all the get method to non async
+
 ## 1.3.5
 
 - Updated previous methods

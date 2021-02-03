@@ -5,14 +5,17 @@ import 'package:flutter/material.dart';
 import '../cache_x.dart';
 
 class CacheXWorker {
-  CacheXWorker({
-    @required String key,
-  }) {
-    /// Initializeing the CacheXEncryption using user specified [password/Key]
+  static final CacheXWorker _instance = CacheXWorker._ins();
+  factory CacheXWorker() => _instance;
+  CacheXWorker._ins();
+  String key;
+  init({@required String key}) async {
     _encrypt = CacheXEncryptImpl(
       key,
     );
+    await _storage.init();
   }
+
   CacheStorage _storage = CacheStorage();
   CacheXEncrypt _encrypt;
 
@@ -23,7 +26,7 @@ class CacheXWorker {
   }) async {
     try {
       /// Getting encrypted data from CacheXEncryption
-      String encryptedData = await _encrypt.encryptData(data);
+      String encryptedData = _encrypt.encryptData(data);
 
       /// Sending data to CacheStorage to save
       bool result = await _storage.saveString(key, encryptedData);
@@ -39,7 +42,12 @@ class CacheXWorker {
     @required List<String> data,
   }) async {
     try {
-      List<String> encryptedData = await _getEncryptedList(data);
+      List<String> encryptedData = <String>[];
+      data.forEach((element) {
+        /// Getting encrypted data from CacheXEncryption
+        final str = _encrypt.encryptData(element);
+        encryptedData.add(str);
+      });
 
       /// Sending data to CacheStorage to save
       bool result = await _storage.saveStringList(key, encryptedData);
@@ -49,65 +57,49 @@ class CacheXWorker {
     }
   }
 
-  Future<List<String>> _getEncryptedList(List<String> data) async {
-    List<String> encryptedData = <String>[];
-    data.forEach((element) async {
-      /// Getting encrypted data from CacheXEncryption
-      final str = await _encrypt.encryptData(element);
-      encryptedData.add(str);
-    });
-    return Future.value(encryptedData);
-  }
-
   /// Getting keys
-  Future<Set<String>> getKeys() async {
+  Set<String> getKeys() {
     try {
       /// getting data from [CacheXStorage]
-      Set<String> result = await _storage.getKeys();
-      return Future.value(result);
+      Set<String> result = _storage.getKeys();
+      return result;
     } catch (e) {
       throw new StorageException(e.toString());
     }
   }
 
   /// Getting data and decrypting
-  Future<String> getData({
+  String getData({
     @required String key,
-  }) async {
+  }) {
     try {
       /// getting data from [CacheXStorage]
-      String data = await _storage.getString(key);
+      String data = _storage.getString(key);
 
       /// Getting decrypted data from [cacheXEncryption]
-      String result = await _encrypt.decryptData(data);
-      return Future.value(result);
+      String result = _encrypt.decryptData(data);
+      return result;
     } catch (e) {
       throw new StorageException(e.toString());
     }
   }
 
   /// Getting lis data and decrypting
-  Future<List<String>> getStringList({
+  List<String> getStringList({
     @required String key,
-  }) async {
+  }) {
     try {
       /// getting data from [CacheXStorage]
-      List<String> data = await _storage.getStringList(key);
+      List<String> data = _storage.getStringList(key);
 
       /// Getting decrypted data from [cacheXEncryption]
-      List<String> result = await _getDycryptedList(data);
-      return Future.value(result);
+      List<String> result = <String>[];
+      data.forEach((element) {
+        result.add(_encrypt.decryptData(element));
+      });
+      return result;
     } catch (e) {
       throw new StorageException(e.toString());
     }
-  }
-
-  Future<List<String>> _getDycryptedList(List<String> data) async {
-    List<String> result = <String>[];
-    data.forEach((element) async {
-      result.add(await _encrypt.decryptData(element));
-    });
-
-    return Future.value(result);
   }
 }

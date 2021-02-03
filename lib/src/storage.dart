@@ -5,45 +5,36 @@ class CacheStorage {
   factory CacheStorage() => _instance;
   CacheStorage._ins();
 
+  init() async {
+    if (_preferance == null) {
+      this._preferance = await SharedPreferences.getInstance();
+    }
+  }
+
   SharedPreferences _preferance;
 
   /// Get keys
-  Future<Set<String>> getKeys() async {
-    if (_preferance == null) {
-      this._preferance = await SharedPreferences.getInstance();
-    }
-    return Future.value(_preferance.getKeys());
+  Set<String> getKeys() {
+    return _preferance.getKeys();
   }
 
   /// Get String from [SharedPreferences]
-  Future<String> getString(String key) async {
-    if (_preferance == null) {
-      this._preferance = await SharedPreferences.getInstance();
-    }
-    return Future.value(_preferance.getString(key));
+  String getString(String key) {
+    return _preferance.getString(key);
   }
 
   /// Get String List from [SharedPreferences]
-  Future<List<String>> getStringList(String key) async {
-    if (_preferance == null) {
-      this._preferance = await SharedPreferences.getInstance();
-    }
-    return Future.value(_preferance.getStringList(key));
+  List<String> getStringList(String key) {
+    return _preferance.getStringList(key);
   }
 
   /// Save String to [SharedPreferences]
-  Future<bool> saveString(String key, String data) async {
-    if (_preferance == null) {
-      this._preferance = await SharedPreferences.getInstance();
-    }
-    return Future.value(_preferance.setString(key, data));
+  Future<bool> saveString(String key, String data) {
+    return _preferance.setString(key, data);
   }
 
   /// Save String List to [SharedPreferences]
-  Future<bool> saveStringList(String key, List<String> data) async {
-    if (_preferance == null) {
-      this._preferance = await SharedPreferences.getInstance();
-    }
-    return Future.value(_preferance.setStringList(key, data));
+  Future<bool> saveStringList(String key, List<String> data) {
+    return _preferance.setStringList(key, data);
   }
 }

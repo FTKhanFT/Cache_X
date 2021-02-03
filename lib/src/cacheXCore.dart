@@ -4,7 +4,7 @@ class CacheXCore {
   static final CacheXCore instance = CacheXCore._ins();
   factory CacheXCore() => instance;
   CacheXCore._ins();
-  CacheXWorker _worker;
+  CacheXWorker _worker = CacheXWorker();
   String _password;
 
   /// Initialize th CacheXCore
@@ -14,9 +14,7 @@ class CacheXCore {
     this._password = password;
 
     /// Initializeing worker using specified password
-    _worker = CacheXWorker(
-      key: password,
-    );
+    await _worker.init(key: password);
   }
 
   /// Send to CacheXWorker to Save string
@@ -100,100 +98,99 @@ class CacheXCore {
   }
 
   /// Asking CacheXWorker to Get Keys from cache
-  Future<Set<String>> getKeys() async {
+  Set<String> getKeys() {
     if (_password == null) {
       throw new CacheXException(
           'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
     }
-    Set<String> result = await _worker.getKeys();
-    return Future.value(result);
+    return _worker.getKeys();
   }
 
   /// Asking CacheXWorker to Get string from cache using the key
-  Future<String> getString({
+  String getString({
     @required String key,
-  }) async {
+  }) {
     if (_password == null) {
       throw new CacheXException(
           'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
     }
-    String result = await _worker.getData(
+    String result = _worker.getData(
       key: key,
     );
-    return Future.value(result);
+    return result;
   }
 
   /// Asking CacheXWorker to Get bool from cache using the key
-  Future<bool> getBool({
+  bool getBool({
     @required String key,
-  }) async {
+  }) {
     if (_password == null) {
       throw new CacheXException(
           'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
     }
-    String result = await _worker.getData(
+    String result = _worker.getData(
       key: key,
     );
     if (result == 'true') {
-      return Future.value(true);
+      return true;
     } else if (result == 'false') {
-      return Future.value(false);
+      return false;
     } else {
       throw new CacheXException('The data for key: $key is not Type of bool');
     }
   }
 
   /// Asking CacheXWorker to Get int from cache using the key
-  Future<int> getInt({
+  int getInt({
     @required String key,
-  }) async {
+  }) {
     int result;
     if (_password == null) {
       throw new CacheXException(
           'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
     }
-    String stringResult = await _worker.getData(
+    String stringResult = _worker.getData(
       key: key,
     );
     try {
       result = int.tryParse(stringResult);
-      return Future.value(result);
+      return result;
     } catch (e) {
       throw new CacheXException('The data for key: $key is not Type of int');
     }
   }
 
   /// Asking CacheXWorker to Get double from cache using the key
-  Future<double> getDouble({
+  double getDouble({
     @required String key,
-  }) async {
+  }) {
     double result;
     if (_password == null) {
       throw new CacheXException(
           'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
     }
-    String stringResult = await _worker.getData(
+    String stringResult = _worker.getData(
       key: key,
     );
     try {
       result = double.tryParse(stringResult);
-      return Future.value(result);
+      return result;
     } catch (e) {
       throw new CacheXException('The data for key: $key is not Type of double');
     }
   }
 
   /// Asking CacheXWorker to Get String List from cache using the key
-  Future<List<String>> getStringList({
+  List<String> getStringList({
     @required String key,
-  }) async {
+  }) {
     if (_password == null) {
       throw new CacheXException(
           'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
     }
-    List<String> result = await _worker.getStringList(
+    List<String> result = _worker.getStringList(
       key: key,
     );
-    return Future.value(result);
+    return result;
   }
 }

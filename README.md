@@ -1,12 +1,13 @@
 # CacheX for Flutter
 
-A feasible caching library for Flutter. Save any encrypted string.
+A feasible caching package for Flutter. Save any data encrypted.
 
 > Inspired by [CacheX for Android](https://github.com/rommansabbir/CacheX)
 
 ## How does it work ?
 
-Caching is just a simple key-value pair data saving procedure. CacheX follows the same approach. CacheX uses SharedPreference as storage for caching data. Since we really can't just save the original data because of security issues. CacheX uses `AES` encryption & decryption behind the scene when you are caching data or fetching data from the cache.
+| Caching is just a simple key-value pair data saving procedure. CacheX follows the same approach. CacheX uses SharedPreference as storage for caching data. Since we really can't just save the original data because of security issues. CacheX uses `AES` encryption & decryption behind the scene when you are caching data or fetching data from the cache.|
+| --- |
 
 ## Screenshot from the [Example Project](https://pub.dev/packages/cache_x/example) after using [CacheX](https://pub.dev/packages/cache_x)
 
@@ -54,6 +55,9 @@ Also you can save the instance in a variable then use the variable to save or ge
     // Get String
     cacheX.getString(key: 'ft1');
 
+| ⚠ WARNING: If you forget or lost the specified `password` all the data encrypted with the previous password will be unusable. |
+| --- |
+
 ## Available Methods
 
 - Save Methods
@@ -74,7 +78,8 @@ Also you can save the instance in a variable then use the variable to save or ge
 
 - The password must be 128/192/256 bits. It means the password only can be `16` character,`24` character or `32` character in length. Otherwise it will throw exception.
 
-- All the `save` and `get` methods will return `Future<>` so to get the value you have to use `await` and it will throw [exception](#exceptions-in-the-package) if there any.
+- All the `save` methods will return `Future<>` so to get the value you have to use `await`
+- It will throw [exception](#exceptions-in-the-package) if there any.
 
 ## Exceptions in the Package
 

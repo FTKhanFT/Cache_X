@@ -28,10 +28,10 @@ void main() async {
   );
 
   // Getting values
-  print(await cacheX.getBool(key: '1'));
-  print(await cacheX.getDouble(key: '2'));
-  print(await cacheX.getInt(key: '3'));
-  print(await cacheX.getString(key: '4'));
-  print(await cacheX.getStringList(key: '5'));
-  print(await cacheX.getKeys());
+  print(cacheX.getBool(key: '1'));
+  print(cacheX.getDouble(key: '2'));
+  print(cacheX.getInt(key: '3'));
+  print(cacheX.getString(key: '4'));
+  print(cacheX.getStringList(key: '5'));
+  print(cacheX.getKeys());
 }
