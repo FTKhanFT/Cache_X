@@ -8,6 +8,8 @@ A feasible caching library for Flutter. Save any encrypted string.
 
 Caching is just a simple key-value pair data saving procedure. CacheX follows the same approach. CacheX uses SharedPreference as storage for caching data. Since we really can't just save the original data because of security issues. CacheX uses `AES` encryption & decryption behind the scene when you are caching data or fetching data from the cache.
 
+## Screenshot from the [Example Project](https://pub.dev/packages/cache_x/example) after using [CacheX](https://pub.dev/packages/cache_x)
+
 <img src="https://github.com/FTKhanFT/Cache_X/blob/main/lib/screenshot.png?raw=true"/>
 
 ## Getting Started

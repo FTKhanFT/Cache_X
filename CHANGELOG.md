@@ -1,4 +1,4 @@
-## 1.3.2
+## 1.3.5
 
 - Updated previous methods
 - Added new Methods
