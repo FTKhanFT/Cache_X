@@ -26,7 +26,44 @@ class CacheXWorker {
       String encryptedData = await _encrypt.encryptData(data);
 
       /// Sending data to CacheStorage to save
-      bool result = await _storage.saveData(key, encryptedData);
+      bool result = await _storage.saveString(key, encryptedData);
+      return Future.value(result);
+    } catch (e) {
+      throw new StorageException(e.toString());
+    }
+  }
+
+  /// Encrypting and saving data
+  Future<bool> saveStringList({
+    @required String key,
+    @required List<String> data,
+  }) async {
+    try {
+      List<String> encryptedData = await _getEncryptedList(data);
+
+      /// Sending data to CacheStorage to save
+      bool result = await _storage.saveStringList(key, encryptedData);
+      return Future.value(result);
+    } catch (e) {
+      throw new StorageException(e.toString());
+    }
+  }
+
+  Future<List<String>> _getEncryptedList(List<String> data) async {
+    List<String> encryptedData = <String>[];
+    data.forEach((element) async {
+      /// Getting encrypted data from CacheXEncryption
+      final str = await _encrypt.encryptData(element);
+      encryptedData.add(str);
+    });
+    return Future.value(encryptedData);
+  }
+
+  /// Getting keys
+  Future<Set<String>> getKeys() async {
+    try {
+      /// getting data from [CacheXStorage]
+      Set<String> result = await _storage.getKeys();
       return Future.value(result);
     } catch (e) {
       throw new StorageException(e.toString());
@@ -39,7 +76,7 @@ class CacheXWorker {
   }) async {
     try {
       /// getting data from [CacheXStorage]
-      String data = await _storage.getData(key);
+      String data = await _storage.getString(key);
 
       /// Getting decrypted data from [cacheXEncryption]
       String result = await _encrypt.decryptData(data);
@@ -47,5 +84,30 @@ class CacheXWorker {
     } catch (e) {
       throw new StorageException(e.toString());
     }
+  }
+
+  /// Getting lis data and decrypting
+  Future<List<String>> getStringList({
+    @required String key,
+  }) async {
+    try {
+      /// getting data from [CacheXStorage]
+      List<String> data = await _storage.getStringList(key);
+
+      /// Getting decrypted data from [cacheXEncryption]
+      List<String> result = await _getDycryptedList(data);
+      return Future.value(result);
+    } catch (e) {
+      throw new StorageException(e.toString());
+    }
+  }
+
+  Future<List<String>> _getDycryptedList(List<String> data) async {
+    List<String> result = <String>[];
+    data.forEach((element) async {
+      result.add(await _encrypt.decryptData(element));
+    });
+
+    return Future.value(result);
   }
 }

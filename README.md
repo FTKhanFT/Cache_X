@@ -8,6 +8,7 @@ A feasible caching library for Flutter. Save any encrypted string.
 
 Caching is just a simple key-value pair data saving procedure. CacheX follows the same approach. CacheX uses SharedPreference as storage for caching data. Since we really can't just save the original data because of security issues. CacheX uses `AES` encryption & decryption behind the scene when you are caching data or fetching data from the cache.
 
+<img src="./lib/screenshot.png?raw=true"/>
 ## Getting Started
 
 First you have to add the package dependency in `pubspec.yml`
@@ -20,8 +21,10 @@ Get the version from [pub.dev](https://pub.dev/packages/cache_x)
     void main() async {
         WidgetsFlutterBinding.ensureInitialized();
 
-        // Initialize 128byte password (16 Charecter)
-        String password = 'CBoaDQIQAgceGg8d';
+        // Initialize password
+        // Passowrd length must be 128/192/256 bits
+        // you can use the password of 16 character,24 character or 32 character.
+        String password = 'CBoaDQIQAgceGg8dFAkMDBEOECEZCxg=';
 
         // Initialize CacheX with the password
         await CacheXCore().init(password: password);
@@ -29,28 +32,51 @@ Get the version from [pub.dev](https://pub.dev/packages/cache_x)
         // Do your apps essential works
 
         // Then anywhere in your app use it to save string
-        print(await CacheXCore.instance.saveData(key: 'ft1', value: 'Tanvir'));
+        await CacheXCore.instance.saveString(key: 'ft1', value: 'Tanvir');
         // Get String
-        print(await CacheXCore.instance.getData(key: 'ft1'));
+        await CacheXCore.instance.getString(key: 'ft1');
     }
 
-Also youcan save the instance in a veriable then use the veriable.
+Also you can save the instance in a variable then use the variable to save or get any data.
 
-    /// CacheXCore type of veriable cacheX
+    // CacheXCore type of variable cacheX
     final cacheX = CacheXCore();
-    /// Init the CacheX
+
+    // Init the CacheX
     await cacheX.init(password: password);
-    cacheX.saveData(key: 'ft1', value: 'Tanvir');
-    cacheX.getData(key: 'ft1');
 
-### Things to keep in mind
+    // Save String
+    cacheX.saveString(key: 'ft1', value: 'Tanvir');
 
-- `CacheXCore.instance.saveData(String key, String value)` will return `Future<bool>` so you have to use `await` to get the result of it and it will throw [exception](#exceptions-in-the-package) if there any.
+    // Get String
+    cacheX.getString(key: 'ft1');
 
-- `CacheXCore.instance.getData(String key)` will return `Future<String>` so to get the string you have to use `await` and it will throw [exception](#exceptions-in-the-package) if there any.
+## Available Methods
+
+- Save Methods
+  - saveBool(String key, bool value)
+  - saveDouble(String key, double value)
+  - saveInt(String key, int value)
+  - saveString(String key, String value)
+  - saveStringList(String key, List<String> value)
+- Get Methods
+  - getBool(String key)
+  - getDouble(String key)
+  - getInt(String key)
+  - getString(String key)
+  - getStringList(String key)
+  - getKeys()
+
+## Important things to keep in mind
+
+- The password must be 128/192/256 bits. It means the password only can be `16` character,`24` character or `32` character in length. Otherwise it will throw exception.
+
+- All the `save` and `get` methods will return `Future<>` so to get the value you have to use `await` and it will throw [exception](#exceptions-in-the-package) if there any.
 
 ## Exceptions in the Package
 
+- CacheXException
+  - If there any exception in the CacheXCore or the CacheXCore is not initialized properly it will throw `CacheXException` exception. The exception message starts with `CacheXException:`.
 - StorageException
   - If there any exception saving or getting data it will throw `StorageException`. The exception message starts with String `StorageException:`.
 - EncryptionException
