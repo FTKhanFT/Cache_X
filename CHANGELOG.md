@@ -1,6 +1,12 @@
+## 1.3.7
+
+- Fixed exception if the key is not found
+- Added default value
+
 ## 1.3.6
 
-- Changed all the get method to non async
+- Changed all the get method to non async.
+- Added warningsand importants indocuments.
 
 ## 1.3.5
 

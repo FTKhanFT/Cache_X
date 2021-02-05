@@ -77,7 +77,7 @@ class CacheXWorker {
       String data = _storage.getString(key);
 
       /// Getting decrypted data from [cacheXEncryption]
-      String result = _encrypt.decryptData(data);
+      String result = data != null ? _encrypt.decryptData(data) : '';
       return result;
     } catch (e) {
       throw new StorageException(e.toString());
@@ -94,9 +94,10 @@ class CacheXWorker {
 
       /// Getting decrypted data from [cacheXEncryption]
       List<String> result = <String>[];
-      data.forEach((element) {
-        result.add(_encrypt.decryptData(element));
-      });
+      data != null ??
+          data.forEach((element) {
+            result.add(_encrypt.decryptData(element));
+          });
       return result;
     } catch (e) {
       throw new StorageException(e.toString());

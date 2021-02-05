@@ -49,13 +49,16 @@ Also you can save the instance in a variable then use the variable to save or ge
     // Init the CacheX
     await cacheX.init(password: password);
 
-    // Save String
-    cacheX.saveString(key: 'ft1', value: 'Tanvir');
+    // Save bool
+    cacheX.saveBool(key: 'dark', value: true);
 
-    // Get String
-    cacheX.getString(key: 'ft1');
+    // Get bool
+    cacheX.getBool(
+      key: 'dark',
+      defaultValue: false,
+    );
 
-| ⚠ WARNING: If you forget or lost the specified `password` all the data encrypted with the previous password will be unusable. |
+| ⚠ WARNING: If you forget or lost the specified password all the data encrypted with the password will be unusable. |
 | --- |
 
 ## Available Methods
@@ -77,8 +80,8 @@ Also you can save the instance in a variable then use the variable to save or ge
 ## Important things to keep in mind
 
 - The password must be 128/192/256 bits. It means the password only can be `16` character,`24` character or `32` character in length. Otherwise it will throw exception.
-
-- All the `save` methods will return `Future<>` so to get the value you have to use `await`
+- Provide `defaultValue` in the get methods or else the default value will be null. If the key is not found or the data is not the right type it return the `defaultValue`.
+- All the `save` methods will return `Future<bool>` so to get the value you have to use `await`
 - It will throw [exception](#exceptions-in-the-package) if there any.
 
 ## Exceptions in the Package

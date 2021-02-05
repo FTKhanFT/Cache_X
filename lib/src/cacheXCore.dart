@@ -107,8 +107,10 @@ class CacheXCore {
   }
 
   /// Asking CacheXWorker to Get string from cache using the key
+  /// Provide a default value or it will return null as default
   String getString({
     @required String key,
+    String defaultValue,
   }) {
     if (_password == null) {
       throw new CacheXException(
@@ -117,12 +119,14 @@ class CacheXCore {
     String result = _worker.getData(
       key: key,
     );
-    return result;
+    return result != null ? result : defaultValue;
   }
 
   /// Asking CacheXWorker to Get bool from cache using the key
+  /// Provide a default value or it will return null as default
   bool getBool({
     @required String key,
+    bool defaultValue,
   }) {
     if (_password == null) {
       throw new CacheXException(
@@ -136,13 +140,15 @@ class CacheXCore {
     } else if (result == 'false') {
       return false;
     } else {
-      throw new CacheXException('The data for key: $key is not Type of bool');
+      return defaultValue;
     }
   }
 
   /// Asking CacheXWorker to Get int from cache using the key
+  /// Provide a default value or it will return null as default
   int getInt({
     @required String key,
+    int defaultValue,
   }) {
     int result;
     if (_password == null) {
@@ -156,13 +162,15 @@ class CacheXCore {
       result = int.tryParse(stringResult);
       return result;
     } catch (e) {
-      throw new CacheXException('The data for key: $key is not Type of int');
+      return defaultValue;
     }
   }
 
   /// Asking CacheXWorker to Get double from cache using the key
+  /// Provide a default value or it will return null as default
   double getDouble({
     @required String key,
+    double defaultValue,
   }) {
     double result;
     if (_password == null) {
@@ -176,13 +184,15 @@ class CacheXCore {
       result = double.tryParse(stringResult);
       return result;
     } catch (e) {
-      throw new CacheXException('The data for key: $key is not Type of double');
+      return defaultValue;
     }
   }
 
   /// Asking CacheXWorker to Get String List from cache using the key
+  /// Provide a default value or it will return null as default
   List<String> getStringList({
     @required String key,
+    List<String> defaultValue,
   }) {
     if (_password == null) {
       throw new CacheXException(
@@ -191,6 +201,6 @@ class CacheXCore {
     List<String> result = _worker.getStringList(
       key: key,
     );
-    return result;
+    return result.isEmpty ? defaultValue : result;
   }
 }
