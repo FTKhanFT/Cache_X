@@ -1,6 +1,5 @@
 import 'package:cache_x/src/encrypt.dart';
 import 'package:cache_x/src/storage.dart';
-import 'package:flutter/material.dart';
 
 import '../cache_x.dart';
 
@@ -8,8 +7,8 @@ class CacheXWorker {
   static final CacheXWorker _instance = CacheXWorker._ins();
   factory CacheXWorker() => _instance;
   CacheXWorker._ins();
-  String key;
-  init({@required String key}) async {
+  String? key;
+  init({required String key}) async {
     _encrypt = CacheXEncryptImpl(
       key,
     );
@@ -17,12 +16,12 @@ class CacheXWorker {
   }
 
   CacheStorage _storage = CacheStorage();
-  CacheXEncrypt _encrypt;
+  late CacheXEncrypt _encrypt;
 
   /// Encrypting and saving data
   Future<bool> saveData({
-    @required String key,
-    @required String data,
+    required String key,
+    required String data,
   }) async {
     try {
       /// Getting encrypted data from CacheXEncryption
@@ -38,8 +37,8 @@ class CacheXWorker {
 
   /// Encrypting and saving data
   Future<bool> saveStringList({
-    @required String key,
-    @required List<String> data,
+    required String key,
+    required List<String> data,
   }) async {
     try {
       List<String> encryptedData = <String>[];
@@ -70,11 +69,11 @@ class CacheXWorker {
 
   /// Getting data and decrypting
   String getData({
-    @required String key,
+    required String key,
   }) {
     try {
       /// getting data from [CacheXStorage]
-      String data = _storage.getString(key);
+      String? data = _storage.getString(key);
 
       /// Getting decrypted data from [cacheXEncryption]
       String result = data != null ? _encrypt.decryptData(data) : '';
@@ -86,18 +85,18 @@ class CacheXWorker {
 
   /// Getting lis data and decrypting
   List<String> getStringList({
-    @required String key,
+    required String key,
   }) {
     try {
       /// getting data from [CacheXStorage]
-      List<String> data = _storage.getStringList(key);
+      List<String>? data = _storage.getStringList(key);
 
       /// Getting decrypted data from [cacheXEncryption]
       List<String> result = <String>[];
-      data != null ??
-          data.forEach((element) {
-            result.add(_encrypt.decryptData(element));
-          });
+      if (data != null)
+        data.forEach((element) {
+          result.add(_encrypt.decryptData(element));
+        });
       return result;
     } catch (e) {
       throw new StorageException(e.toString());

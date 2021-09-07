@@ -5,7 +5,7 @@ class StorageException implements Exception {
   final dynamic message;
   StorageException([this.message]);
   String toString() {
-    Object message = this.message;
+    Object? message = this.message;
     if (message == null) return "StorageException";
     return "StorageException: $message";
   }
@@ -16,7 +16,7 @@ class EncryptionException implements Exception {
   final dynamic message;
   EncryptionException([this.message]);
   String toString() {
-    Object message = this.message;
+    Object? message = this.message;
     if (message == null) return "EncryptionException";
     return "EncryptionException: $message";
   }
@@ -27,7 +27,7 @@ class CacheXException implements Exception {
   final dynamic message;
   CacheXException([this.message]);
   String toString() {
-    Object message = this.message;
+    Object? message = this.message;
     if (message == null) return "EncryptionException";
     return "CacheXException: $message";
   }

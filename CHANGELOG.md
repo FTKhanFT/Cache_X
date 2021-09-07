@@ -1,3 +1,6 @@
+## 2.1.5
+
+- Migrated to Nullsafety
 ## 1.3.7
 
 - Fixed exception if the key is not found

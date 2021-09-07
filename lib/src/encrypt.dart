@@ -14,9 +14,9 @@ class CacheXEncryptImpl implements CacheXEncrypt {
     key = Key.fromUtf8(password);
     encrypter = Encrypter(AES(key));
   }
-  Key key;
+  late Key key;
   final iv = IV.fromLength(16);
-  Encrypter encrypter;
+  late Encrypter encrypter;
 
   /// Decrypt base64 data using [encrypt package]
   @override
