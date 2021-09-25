@@ -3,11 +3,14 @@ import 'package:cache_x/cache_x.dart';
 
 class CoreStoreCacheXImpl extends CoreStore {
   static CoreStoreCacheXImpl? _instance;
+  CoreStoreCacheXImpl._internal();
 
   static Future<CoreStoreCacheXImpl> getInstance({String? password}) async {
-    password ??= 'flutter_sdk';
     if (_instance == null) {
-      await CacheXCore().init(password: password);
+      await CacheXCore().init(
+        password: password != null ? password : 'flutter_sdk',
+      );
+      _instance = CoreStoreCacheXImpl._internal();
     }
     return _instance!;
   }

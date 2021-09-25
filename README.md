@@ -62,6 +62,7 @@ Also you can save the instance in a variable then use the variable to save or ge
 | --- |
 
 ## Parse Server
+
 If tou are using [parse_server_sdk_flutter](https://pub.dev/packages/parse_server_sdk_flutter) in your project you can use CacheX as default coreStore.
 
 Once you have the library added to your project, when you initialize [parse_server_sdk_flutter](https://pub.dev/packages/parse_server_sdk_flutter) sdk add the CoreStoreCacheXImpl in coreStore...
@@ -78,6 +79,7 @@ Once you have the library added to your project, when you initialize [parse_serv
         debug: true,
         autoSendSessionId: true,
       );
+
 ## Available Methods
 
 - Save Methods

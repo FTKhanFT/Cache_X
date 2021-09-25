@@ -1,4 +1,8 @@
-# 2.1.7
+## 2.2.0
+
+- Fixed parse core store implentation problem
+
+## 2.1.7
 
 - Added CoreStore Implementation for Parse Server Sdk
 
