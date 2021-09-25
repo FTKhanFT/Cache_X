@@ -61,6 +61,23 @@ Also you can save the instance in a variable then use the variable to save or ge
 | ⚠ WARNING: If you forget or lost the specified password all the data encrypted with the password will be unusable. |
 | --- |
 
+## Parse Server
+If tou are using [parse_server_sdk_flutter](https://pub.dev/packages/parse_server_sdk_flutter) in your project you can use CacheX as default coreStore.
+
+Once you have the library added to your project, when you initialize [parse_server_sdk_flutter](https://pub.dev/packages/parse_server_sdk_flutter) sdk add the CoreStoreCacheXImpl in coreStore...
+
+    import 'package:cache_x/core_store_cacheX_impl.dart';
+    await Parse().initialize(
+        appId,
+        serverUrl,
+        clientKey: clientKey,
+        liveQueryUrl: serverUrl,
+        coreStore: await CoreStoreCacheXImpl.getInstance(
+          password: 'u0TCHVOIiEFVwOqqDo1OnLfd3Kx7yaRt',
+        ),
+        debug: true,
+        autoSendSessionId: true,
+      );
 ## Available Methods
 
 - Save Methods
@@ -69,7 +86,7 @@ Also you can save the instance in a variable then use the variable to save or ge
   - saveInt(String key, int value)
   - saveString(String key, String value)
   - saveStringList(String key, List\<String> value)
-  - containsKey(String key)
+  
 - Get Methods
   - getBool(String key)
   - getDouble(String key)
@@ -77,6 +94,7 @@ Also you can save the instance in a variable then use the variable to save or ge
   - getString(String key)
   - getStringList(String key)
   - getKeys()
+  - containsKey(String key)
 - Remove Methods
   - remove(String key)
   - clear()

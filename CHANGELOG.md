@@ -1,12 +1,18 @@
-## 2.1.5
+# 2.1.7
+
+- Added CoreStore Implementation for Parse Server Sdk
+
+## 2.1.6
 
 - Added Methods
   - containsKey(String key)
   - remove(String key)
   - clear()
+
 ## 2.1.5
 
 - Migrated to Nullsafety
+
 ## 1.3.7
 
 - Fixed exception if the key is not found
