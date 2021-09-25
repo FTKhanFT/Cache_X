@@ -1,5 +1,11 @@
 ## 2.1.5
 
+- Added Methods
+  - containsKey(String key)
+  - remove(String key)
+  - clear()
+## 2.1.5
+
 - Migrated to Nullsafety
 ## 1.3.7
 

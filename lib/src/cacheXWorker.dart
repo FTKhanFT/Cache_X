@@ -67,8 +67,12 @@ class CacheXWorker {
     }
   }
 
+  bool containsKey(String key) => _storage.containsKey(key);
+  Future<bool> remove(String key) => _storage.remove(key);
+  Future<bool> clear() => _storage.clear();
+
   /// Getting data and decrypting
-  String getData({
+  String? getData({
     required String key,
   }) {
     try {
@@ -76,7 +80,7 @@ class CacheXWorker {
       String? data = _storage.getString(key);
 
       /// Getting decrypted data from [cacheXEncryption]
-      String result = data != null ? _encrypt.decryptData(data) : '';
+      String? result = data != null ? _encrypt.decryptData(data) : null;
       return result;
     } catch (e) {
       throw new StorageException(e.toString());
@@ -84,7 +88,7 @@ class CacheXWorker {
   }
 
   /// Getting lis data and decrypting
-  List<String> getStringList({
+  List<String>? getStringList({
     required String key,
   }) {
     try {
@@ -92,11 +96,13 @@ class CacheXWorker {
       List<String>? data = _storage.getStringList(key);
 
       /// Getting decrypted data from [cacheXEncryption]
-      List<String> result = <String>[];
-      if (data != null)
+      List<String>? result;
+      if (data != null) {
+        result = <String>[];
         data.forEach((element) {
-          result.add(_encrypt.decryptData(element));
+          result!.add(_encrypt.decryptData(element));
         });
+      }
       return result;
     } catch (e) {
       throw new StorageException(e.toString());

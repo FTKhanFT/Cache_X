@@ -18,6 +18,13 @@ class CacheStorage {
     return _preferance!.getKeys();
   }
 
+  Object? get(String key) => _preferance!.get(key);
+
+  bool containsKey(String key) => _preferance!.containsKey(key);
+
+  Future<bool> remove(String key) => _preferance!.remove(key);
+  Future<bool> clear() => _preferance!.clear();
+
   /// Get String from [SharedPreferences]
   String? getString(String key) {
     return _preferance!.getString(key);

@@ -69,6 +69,7 @@ Also you can save the instance in a variable then use the variable to save or ge
   - saveInt(String key, int value)
   - saveString(String key, String value)
   - saveStringList(String key, List\<String> value)
+  - containsKey(String key)
 - Get Methods
   - getBool(String key)
   - getDouble(String key)
@@ -76,6 +77,9 @@ Also you can save the instance in a variable then use the variable to save or ge
   - getString(String key)
   - getStringList(String key)
   - getKeys()
+- Remove Methods
+  - remove(String key)
+  - clear()
 
 ## Important things to keep in mind
 

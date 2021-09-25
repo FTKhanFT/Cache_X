@@ -17,6 +17,30 @@ class CacheXCore {
     await _worker.init(key: password);
   }
 
+  bool containsKey(String key) {
+    if (_password == null) {
+      throw new CacheXException(
+          'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
+    }
+    return _worker.containsKey(key);
+  }
+
+  Future<bool> remove(String key) {
+    if (_password == null) {
+      throw new CacheXException(
+          'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
+    }
+    return _worker.remove(key);
+  }
+
+  Future<bool> clear() {
+    if (_password == null) {
+      throw new CacheXException(
+          'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
+    }
+    return _worker.clear();
+  }
+
   /// Send to CacheXWorker to Save string
   Future<bool> saveString({
     required String key,
@@ -108,7 +132,7 @@ class CacheXCore {
 
   /// Asking CacheXWorker to Get string from cache using the key
   /// Provide a default value or it will return null as default
-  String getString({
+  String? getString({
     required String key,
     String? defaultValue,
   }) {
@@ -116,10 +140,10 @@ class CacheXCore {
       throw new CacheXException(
           'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
     }
-    String result = _worker.getData(
+    String? result = _worker.getData(
       key: key,
     );
-    return result != null ? result : defaultValue!;
+    return result != null ? result : defaultValue;
   }
 
   /// Asking CacheXWorker to Get bool from cache using the key
@@ -132,7 +156,7 @@ class CacheXCore {
       throw new CacheXException(
           'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
     }
-    String result = _worker.getData(
+    String? result = _worker.getData(
       key: key,
     );
     if (result == 'true') {
@@ -155,15 +179,13 @@ class CacheXCore {
       throw new CacheXException(
           'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
     }
-    String stringResult = _worker.getData(
+    String? stringResult = _worker.getData(
       key: key,
     );
-    try {
-      result = int.tryParse(stringResult);
-      return result;
-    } catch (e) {
-      return defaultValue;
-    }
+    result = stringResult != null
+        ? int.tryParse(stringResult) ?? defaultValue
+        : defaultValue;
+    return result;
   }
 
   /// Asking CacheXWorker to Get double from cache using the key
@@ -177,15 +199,13 @@ class CacheXCore {
       throw new CacheXException(
           'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
     }
-    String stringResult = _worker.getData(
+    String? stringResult = _worker.getData(
       key: key,
     );
-    try {
-      result = double.tryParse(stringResult);
-      return result;
-    } catch (e) {
-      return defaultValue;
-    }
+    result = stringResult != null
+        ? double.tryParse(stringResult) ?? defaultValue
+        : defaultValue;
+    return result;
   }
 
   /// Asking CacheXWorker to Get String List from cache using the key
@@ -198,9 +218,9 @@ class CacheXCore {
       throw new CacheXException(
           'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
     }
-    List<String> result = _worker.getStringList(
+    List<String>? result = _worker.getStringList(
       key: key,
     );
-    return result.isEmpty ? defaultValue : result;
+    return result != null ? result : defaultValue;
   }
 }
