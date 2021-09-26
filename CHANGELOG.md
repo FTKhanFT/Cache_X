@@ -1,3 +1,7 @@
+## 2.2.1
+
+- Minor fixes
+
 ## 2.2.0
 
 - Fixed parse core store implentation problem

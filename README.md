@@ -17,89 +17,124 @@ A feasible caching package for Flutter. Save any data encrypted.
 
 First you have to add the package dependency in `pubspec.yml`
 
-    cache_x: ^latest
+```yaml
+cache_x: ^latest
+```
+
 Get the version from [pub.dev](https://pub.dev/packages/cache_x)
 
 ### In the `main Function` of your App
 
-    void main() async {
-        WidgetsFlutterBinding.ensureInitialized();
+```dart
+void main() async {
+    WidgetsFlutterBinding.ensureInitialized();
 
-        // Initialize password
-        // Passowrd length must be 128/192/256 bits
-        // you can use the password of 16 character,24 character or 32 character.
-        String password = 'CBoaDQIQAgceGg8dFAkMDBEOECEZCxg=';
+    // Initialize password
+    // Passowrd length must be 128/192/256 bits
+    // you can use the password of 16 character,24 character or 32 character.
+    String password = 'CBoaDQIQAgceGg8dFAkMDBEOECEZCxg=';
 
-        // Initialize CacheX with the password
-        await CacheXCore().init(password: password);
+    // Initialize CacheX with the password
+    await CacheXCore().init(password: password);
 
-        // Do your apps essential works
+    // Do your apps essential works
+    // Then anywhere in your app use it to save string
+    await CacheXCore.instance.saveString(key: 'ft1', value: 'Tanvir');
 
-        // Then anywhere in your app use it to save string
-        await CacheXCore.instance.saveString(key: 'ft1', value: 'Tanvir');
-        // Get String
-        await CacheXCore.instance.getString(key: 'ft1');
-    }
+    // Get String
+    await CacheXCore.instance.getString(key: 'ft1');
+}
+```
 
 Also you can save the instance in a variable then use the variable to save or get any data.
 
-    // CacheXCore type of variable cacheX
-    final cacheX = CacheXCore();
+```dart
+// CacheXCore type of variable cacheX
+final cacheX = CacheXCore();
 
-    // Init the CacheX
-    await cacheX.init(password: password);
+// Init the CacheX
+await cacheX.init(password: password);
 
-    // Save bool
-    cacheX.saveBool(key: 'dark', value: true);
+// Save bool
+cacheX.saveBool(key: 'dark', value: true);
 
-    // Get bool
-    cacheX.getBool(
-      key: 'dark',
-      defaultValue: false,
-    );
+// Get bool
+cacheX.getBool(
+  key: 'dark',
+  defaultValue: false,
+);
+```
 
-| ⚠ WARNING: If you forget or lost the specified password all the data encrypted with the password will be unusable. |
+| ⚠ WARNING: If you forget or lost the specified password all the data encrypted with the password will be unusable.
 | --- |
 
 ## Parse Server
 
-If tou are using [parse_server_sdk_flutter](https://pub.dev/packages/parse_server_sdk_flutter) in your project you can use CacheX as default coreStore.
+If you are using [parse_server_sdk_flutter](https://pub.dev/packages/parse_server_sdk_flutter) in your project you can use [CacheX](https://pub.dev/packages/cache_x) as default coreStore.
 
-Once you have the library added to your project, when you initialize [parse_server_sdk_flutter](https://pub.dev/packages/parse_server_sdk_flutter) sdk add the CoreStoreCacheXImpl in coreStore...
+Once you have the library added to your project, when you initialize [parse_server_sdk_flutter](https://pub.dev/packages/parse_server_sdk_flutter) add the CoreStoreCacheXImpl in coreStore...
 
-    import 'package:cache_x/core_store_cacheX_impl.dart';
-    await Parse().initialize(
-        appId,
-        serverUrl,
-        clientKey: clientKey,
-        liveQueryUrl: serverUrl,
-        coreStore: await CoreStoreCacheXImpl.getInstance(
-          password: 'u0TCHVOIiEFVwOqqDo1OnLfd3Kx7yaRt',
-        ),
-        debug: true,
-        autoSendSessionId: true,
-      );
+- ### Import CoreStoreCacheXImpl
+
+```dart
+import 'package:cache_x/core_store_cacheX_impl.dart';
+```
+
+- ### Then initialize parse
+
+```dart
+await Parse().initialize(
+    appId,
+    serverUrl,
+    clientKey: clientKey,
+    liveQueryUrl: serverUrl,
+    coreStore: await CoreStoreCacheXImpl.getInstance(
+      password: 'u0TCHVOIiEFVwOqqDo1OnLfd3Kx7yaRt',
+    ),
+    debug: true,
+    autoSendSessionId: true,
+  );
+```
+
+N.B If you are using [CacheX](https://pub.dev/packages/cache_x) as default coreStore and already initialized parse with CoreStoreCacheXImpl then you don't have to initialize [CacheX](https://pub.dev/packages/cache_x) again to use [CacheX](https://pub.dev/packages/cache_x) as local storage. You can start saving and getting data.
+
+```dart
+// Then anywhere in your app use it to save
+await CacheXCore.instance.saveString(key: 'ft1', value: 'Tanvir');
+// Get
+await CacheXCore.instance.getString(key: 'ft1');
+```
 
 ## Available Methods
 
-- Save Methods
-  - saveBool(String key, bool value)
-  - saveDouble(String key, double value)
-  - saveInt(String key, int value)
-  - saveString(String key, String value)
-  - saveStringList(String key, List\<String> value)
-  
-- Get Methods
-  - getBool(String key)
-  - getDouble(String key)
-  - getInt(String key)
-  - getString(String key)
-  - getStringList(String key)
-  - getKeys()
-  - containsKey(String key)
-- Remove Methods
-  - remove(String key)
-  - clear()
+- ### Save Methods
+
+```js
+➣ saveBool(String key, bool value)
+➣ saveDouble(String key, double value)
+➣ saveInt(String key, int value)
+➣ saveString(String key, String value)
+➣ saveStringList(String key, List<String> value)
+```
+
+- ### Get Methods
+
+```dart
+➣ getBool(String key)
+➣ getDouble(String key)
+➣ getInt(String key)
+➣ getString(String key)
+➣ getStringList(String key)
+➣ getKeys()
+➣ containsKey(String key)
+```
+
+- ### Remove Methods
+
+```dart
+➣ remove(String key)
+➣ clear()
+```
 
 ## Important things to keep in mind
 
