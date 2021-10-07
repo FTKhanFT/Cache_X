@@ -1,13 +1,15 @@
+import 'package:cache_x/cache_x.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheStorage {
-  static final CacheStorage _instance = CacheStorage._ins();
-  factory CacheStorage() => _instance;
-  CacheStorage._ins();
-
-  init() async {
+  bool debug = false;
+  init({bool debug = false}) async {
+    this.debug = debug;
     if (_preferance == null) {
       this._preferance = await SharedPreferences.getInstance();
+      if (debug) {
+        DebugLog.print('Cache_X Storage Initialized');
+      }
     }
   }
 

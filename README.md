@@ -35,7 +35,7 @@ void main() async {
     String password = 'CBoaDQIQAgceGg8dFAkMDBEOECEZCxg=';
 
     // Initialize CacheX with the password
-    await CacheXCore().init(password: password);
+    await CacheXCore().init(password: password, debug: false);
 
     // Do your apps essential works
     // Then anywhere in your app use it to save string
@@ -51,18 +51,23 @@ Also you can save the instance in a variable then use the variable to save or ge
 ```dart
 // CacheXCore type of variable cacheX
 final cacheX = CacheXCore();
-
 // Init the CacheX
 await cacheX.init(password: password);
-
 // Save bool
 cacheX.saveBool(key: 'dark', value: true);
-
 // Get bool
 cacheX.getBool(
   key: 'dark',
   defaultValue: false,
 );
+// Get File from storage
+File newFile = File('file/path/of/your/file/newFile.jpeg');
+// Save file
+cacheX.saveFile(bytes: newFile.readAsBytesSync(), key: "file");
+//get File
+Uint8List? file1 = cacheX.getFile(key: 'file');
+//convart to image
+Image image = Image.memory(file1);
 ```
 
 | ⚠ WARNING: If you forget or lost the specified password all the data encrypted with the password will be unusable.
@@ -96,7 +101,7 @@ await Parse().initialize(
   );
 ```
 
-N.B If you are using [CacheX](https://pub.dev/packages/cache_x) as default coreStore and already initialized parse with CoreStoreCacheXImpl then you don't have to initialize [CacheX](https://pub.dev/packages/cache_x) again to use [CacheX](https://pub.dev/packages/cache_x) as local storage. You can start saving and getting data.
+N.B If you are using [CacheX](https://pub.dev/packages/cache_x) as default coreStore and already initialized parse with `CoreStoreCacheXImpl` then you don't have to initialize [CacheX](https://pub.dev/packages/cache_x) again to use [CacheX](https://pub.dev/packages/cache_x) as local storage. You can start saving and getting data.
 
 ```dart
 // Then anywhere in your app use it to save
@@ -109,12 +114,13 @@ await CacheXCore.instance.getString(key: 'ft1');
 
 - ### Save Methods
 
-```js
+```dart
 ➣ saveBool(String key, bool value)
 ➣ saveDouble(String key, double value)
 ➣ saveInt(String key, int value)
 ➣ saveString(String key, String value)
 ➣ saveStringList(String key, List<String> value)
+➣ saveFile(String key, List<int> bytes)
 ```
 
 - ### Get Methods
@@ -127,6 +133,7 @@ await CacheXCore.instance.getString(key: 'ft1');
 ➣ getStringList(String key)
 ➣ getKeys()
 ➣ containsKey(String key)
+➣ getFile(String key)
 ```
 
 - ### Remove Methods

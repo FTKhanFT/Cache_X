@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   cache_x:
-    path: ../../cache_x
+    path: ../../Cache_X
   cupertino_icons: ^1.0.1
 
 dev_dependencies:

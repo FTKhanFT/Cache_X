@@ -2,23 +2,120 @@ part of cache_x;
 
 class CacheXCore {
   static final CacheXCore instance = CacheXCore._ins();
+
+  ///
+  /// Initializes a new [CacheXCore] instance by [password] and [options].
+  ///
+  /// Use the [debug] option to turn on/off internal debug log of [CacheXCore]
+  ///
+  /// ```dart
+  /// await CacheXCore().init(
+  ///  password: password,
+  ///  debug: true,
+  /// );
+  /// ```
+  /// {@end-tool}
+  ///
+  ///
+  /// if you are using
+  /// [parse_server_sdk_flutter](https://pub.dev/packages/parse_server_sdk_flutter)
+  /// in your project you can use [Cache_X](https://pub.dev/packages/cache_x) as
+  /// your core store.
+  /// When you initialize parse server add [CoreStoreCacheXImpl] in there.
+  ///
+  /// ```dart
+  /// await Parse().initialize(
+  ///  appId,
+  ///  serverUrl,
+  ///  clientKey: clientKey,
+  ///  liveQueryUrl: serverUrl,
+  ///  coreStore: await CoreStoreCacheXImpl.getInstance(
+  ///    password: 'u0TCHVOIiEFVwOqqDo1OnLfd3Kx7yaRt',
+  ///    debug: false,
+  ///  ),
+  ///  debug: false,
+  ///  autoSendSessionId: true,
+  /// );
+  ///```
+  /// {@end-tool}
+  ///
+  ///
+  /// After adding the cacheX core store to parse you can use cacheX as usual as
+  /// you have already initialized [Cache_X](https://pub.dev/packages/cache_x)
+  ///
+  ///
+  /// See <https://pub.dev/packages/cache_x> for
+  /// more discussion on how to use [cache_x]
   factory CacheXCore() => instance;
   CacheXCore._ins();
   CacheXWorker _worker = CacheXWorker();
   String? _password;
+  bool debug = false;
 
-  /// Initialize th CacheXCore
-  init({
+  ///
+  /// Initializes a new [CacheXCore] instance by [password] and [options].
+  ///
+  /// Use the [debug] option to turn on/off internal debug log of [CacheXCore]
+  ///
+  /// ```dart
+  /// await CacheXCore().init(
+  ///  password: password,
+  ///  debug: true,
+  /// );
+  /// ```
+  /// {@end-tool}
+  ///
+  ///
+  /// if you are using
+  /// [parse_server_sdk_flutter](https://pub.dev/packages/parse_server_sdk_flutter)
+  /// in your project you can use [Cache_X](https://pub.dev/packages/cache_x) as
+  /// your core store.
+  /// When you initialize parse server add [CoreStoreCacheXImpl] in there.
+  ///
+  /// ```dart
+  /// await Parse().initialize(
+  ///  appId,
+  ///  serverUrl,
+  ///  clientKey: clientKey,
+  ///  liveQueryUrl: serverUrl,
+  ///  coreStore: await CoreStoreCacheXImpl.getInstance(
+  ///    password: 'u0TCHVOIiEFVwOqqDo1OnLfd3Kx7yaRt',
+  ///    debug: false,
+  ///  ),
+  ///  debug: false,
+  ///  autoSendSessionId: true,
+  /// );
+  ///```
+  /// {@end-tool}
+  ///
+  ///
+  /// After adding the cacheX core store to parse you can use cacheX as usual as
+  /// you have already initialized [Cache_X](https://pub.dev/packages/cache_x)
+  ///
+  ///
+  /// See <https://pub.dev/packages/cache_x> for
+  /// more discussion on how to use [cache_x].
+  Future<CacheXCore> init({
     required String password,
+    debug = false,
   }) async {
     this._password = password;
+    this.debug = debug;
 
     /// Initializeing worker using specified password
-    await _worker.init(key: password);
+    await _worker.init(key: password, debug: this.debug);
+    if (debug) {
+      DebugLog.print('Cache_X Initialized');
+    }
+    return instance;
   }
 
   bool containsKey(String key) {
     if (_password == null) {
+      if (debug) {
+        DebugLog.print(
+            'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
+      }
       throw new CacheXException(
           'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
     }
@@ -39,6 +136,35 @@ class CacheXCore {
           'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
     }
     return _worker.clear();
+  }
+
+  Future<bool> saveFile({
+    required String key,
+    required List<int> bytes,
+  }) async {
+    if (_password == null) {
+      throw new CacheXException(
+          'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
+    }
+    bool result = await _worker.saveFile(
+      key: key,
+      file: bytes,
+    );
+    return Future.value(result);
+  }
+
+  /// Asking CacheXWorker to Get File from cache using the key
+  Uint8List? getFile({
+    required String key,
+  }) {
+    if (_password == null) {
+      throw new CacheXException(
+          'Please initialize the CacheXCore before using it. e.g: await CacheXCore().init(password: password)');
+    }
+    Uint8List? result = _worker.getFile(
+      key: key,
+    );
+    return result;
   }
 
   /// Send to CacheXWorker to Save string

@@ -10,10 +10,15 @@ abstract class CacheXEncrypt {
 
 /// CacheXEncryption Implementation
 class CacheXEncryptImpl implements CacheXEncrypt {
-  CacheXEncryptImpl(String password) {
+  CacheXEncryptImpl(String password, {bool debug = false}) {
+    this.debug = debug;
     key = Key.fromUtf8(password);
     encrypter = Encrypter(AES(key));
+    if (debug) {
+      DebugLog.print('Cache_X Encryption Initialized');
+    }
   }
+  bool debug = false;
   late Key key;
   final iv = IV.fromLength(16);
   late Encrypter encrypter;

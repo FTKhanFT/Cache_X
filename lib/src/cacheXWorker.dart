@@ -1,22 +1,95 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cache_x/src/encrypt.dart';
 import 'package:cache_x/src/storage.dart';
+import 'package:flutter/material.dart';
 
 import '../cache_x.dart';
 
 class CacheXWorker {
-  static final CacheXWorker _instance = CacheXWorker._ins();
-  factory CacheXWorker() => _instance;
-  CacheXWorker._ins();
   String? key;
-  init({required String key}) async {
-    _encrypt = CacheXEncryptImpl(
-      key,
-    );
-    await _storage.init();
+  bool debug = false;
+  init({
+    required String key,
+    bool debug = false,
+  }) async {
+    this.debug = debug;
+    this._encrypt = CacheXEncryptImpl(key, debug: this.debug);
+    await _storage.init(debug: this.debug);
+    if (debug) {
+      DebugLog.print('Cache_X worker Initialized');
+    }
   }
 
   CacheStorage _storage = CacheStorage();
   late CacheXEncrypt _encrypt;
+
+  Future<bool> saveFile({
+    required String key,
+    required List<int> file,
+  }) async {
+    try {
+      String data = base64Encode(file);
+      if (debug) {
+        DebugLog.print('Encoded File');
+      }
+
+      /// Getting encrypted data from CacheXEncryption
+      String encryptedData = _encrypt.encryptData(data);
+      if (debug) {
+        DebugLog.print('Encrypted File');
+      }
+
+      /// Sending data to CacheStorage to save
+      bool result = await _storage.saveString(key, encryptedData);
+      if (debug) {
+        DebugLog.print('File Saved: $result');
+      }
+      return Future.value(result);
+    } catch (e) {
+      if (debug) {
+        DebugLog.print(
+          e.toString(),
+          foreground: Colors.red,
+        );
+      }
+      throw new StorageException(e.toString());
+    }
+  }
+
+  Uint8List? getFile({
+    required String key,
+  }) {
+    try {
+      /// getting data from [CacheXStorage]
+      String? encryptedData = _storage.getString(key);
+
+      /// Getting decrypted data from [cacheXEncryption]
+      String? decryptedData =
+          encryptedData != null ? _encrypt.decryptData(encryptedData) : null;
+      if (decryptedData == null) {
+        return null;
+      }
+      if (debug) {
+        DebugLog.print('Decrypted File');
+      }
+      Uint8List decodedFile = base64Decode(decryptedData);
+      if (debug) {
+        DebugLog.print('Retrived File: true');
+      }
+      return decodedFile;
+    } catch (e) {
+      if (debug) {
+        DebugLog.print(
+          e.toString(),
+          foreground: Colors.red,
+        );
+      }
+      throw new StorageException(e.toString());
+    }
+  }
 
   /// Encrypting and saving data
   Future<bool> saveData({

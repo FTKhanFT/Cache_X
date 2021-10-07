@@ -1,3 +1,14 @@
+## 2.2.2
+
+- Added Method
+
+```dart
+- saveFile(String key, List<int> bytes)
+- getFile(String key)
+```
+
+- Added Debug log in cachex
+
 ## 2.2.1
 
 - Minor fixes
@@ -13,9 +24,12 @@
 ## 2.1.6
 
 - Added Methods
+
+```js
   - containsKey(String key)
   - remove(String key)
   - clear()
+```
 
 ## 2.1.5
 
